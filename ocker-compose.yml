@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  php-apache:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - mysql
+    networks:
+      - todo-network
+
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"
+      MYSQL_DATABASE: todo_list
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - todo-network
+
+networks:
+  todo-network:
+
+volumes:
+  db-data:
